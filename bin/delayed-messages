@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/delayed_messages/cli'
+require_relative '../lib/delayed_messages/runner'
+
+cli = DelayedMessages::CLI.new
+cli.init
+DelayedMessages::Runner.new(cli.options).start

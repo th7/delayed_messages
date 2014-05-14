@@ -1,0 +1,15 @@
+:development:
+  :log_level: 0
+  # :log_path: 'log/delayed_messages.log'
+  :pid_file_path: 'tmp/pids/delayed_messages.pid'
+
+  :rabbitmq_url: 'amqp://guest:guest@localhost:5672'
+  :exchange:
+    :name: 'dolphin'
+    :durable: true
+  :channel:
+    :prefetch: 10000
+  :queue:
+    :name: 'dolphin.delayed'
+  :binding:
+    :routing_key: 'dolphin.delayed'
