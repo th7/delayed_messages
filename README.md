@@ -28,7 +28,7 @@ Then run in your console with default config:
 
 Or start a daemon that uses your config file.
 
-    $ delayed_messages -d -c 'config/delayed_messages.yml' -e development
+    $ delayed-messages -d -c 'config/delayed_messages.yml' -e development
 
 I'd recommend using Monit (or something similar) to manage and monitor daemons.
 
