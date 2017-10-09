@@ -7,9 +7,9 @@ describe DelayedMessages::Runner do
   let(:opts) { { queue: {}, binding: {} } }
   let(:runner) { DelayedMessages::Runner.new(opts) }
 
-  let(:delayed_msg) { { 'delayed_msg' => { 'a' => 'message' }, 'delayed_key' => 'a key' } }
+  let(:delayed_message) { { 'delayed_message' => { 'a' => 'message' }, 'delayed_key' => 'a key' } }
   let(:delay_until) { Time.now.to_i }
-  let(:msg) { { msg: delayed_msg, delay_until: delay_until, tag: 'a tag' } }
+  let(:msg) { { msg: delayed_message, delay_until: delay_until, tag: 'a tag' } }
 
   before do
     DelayedMessages::Runner.any_instance.stub(:bunny_init)
@@ -24,7 +24,7 @@ describe DelayedMessages::Runner do
 
     context 'the message is due' do
       it 'publishes and acknowledges the message' do
-        expect(runner.exch).to receive(:publish).with(delayed_msg['delayed_msg'].to_json, routing_key: delayed_msg['delayed_key']).ordered
+        expect(runner.exch).to receive(:publish).with(delayed_message['delayed_message'].to_json, routing_key: delayed_message['delayed_key']).ordered
         expect(runner.chan).to receive(:ack).with('a tag').ordered
         runner.send(:analyze, delay_until)
       end
@@ -48,7 +48,7 @@ describe DelayedMessages::Runner do
 
     context 'the message is overdue' do
       it 'publishes and achknowledges the message' do
-        expect(runner.exch).to receive(:publish).with(delayed_msg['delayed_msg'].to_json, routing_key: delayed_msg['delayed_key']).ordered
+        expect(runner.exch).to receive(:publish).with(delayed_message['delayed_message'].to_json, routing_key: delayed_message['delayed_key']).ordered
         expect(runner.chan).to receive(:ack).with('a tag').ordered
         runner.send(:analyze, delay_until + 1)
       end
@@ -63,7 +63,7 @@ describe DelayedMessages::Runner do
 
     context 'at the appropriate time' do
       it 'publishes the message' do
-        expect(runner.exch).to receive(:publish).with(delayed_msg['delayed_msg'].to_json, routing_key: delayed_msg['delayed_key']).ordered
+        expect(runner.exch).to receive(:publish).with(delayed_message['delayed_message'].to_json, routing_key: delayed_message['delayed_key']).ordered
         expect(runner.chan).to receive(:ack).with('a tag').ordered
         runner.send(:analyze, delay_until)
       end

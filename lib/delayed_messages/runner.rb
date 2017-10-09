@@ -137,7 +137,7 @@ module DelayedMessages
     end
 
     def publish(msg)
-      @exch.publish(msg[:msg]['delayed_msg'].to_json, routing_key: msg[:msg]['delayed_key'])
+      @exch.publish(msg[:msg]['delayed_message'].to_json, routing_key: msg[:msg]['delayed_key'])
       @chan.ack(msg[:tag])
     end
 
